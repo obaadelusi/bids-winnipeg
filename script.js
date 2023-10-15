@@ -165,7 +165,7 @@ function displayResults(data) {
         let row = tbody.insertRow(tbody.rows.length);
         let bid = data[i];
         row.insertCell(0).innerHTML = i + 1;
-        row.insertCell(1).innerHTML = `<b class="text-secondary">${bid.bid_opportunity_number}</b>`;
+        row.insertCell(1).innerHTML = `<b class="text-light-emphasis">${bid.bid_opportunity_number}</b>`;
         row.insertCell(2).innerHTML = bid.status;
         row.insertCell(3).innerHTML = `${bid.description}. <button class='btn btn-link btn-sm' data-bs-toggle="modal" data-bs-target="#bidModal" onclick="setModalContent('${bid.bid_opportunity_number}')" id="modalButton-${bid.bid_opportunity_number}">More info</button>`;
         row.insertCell(4).innerHTML = bid.year;
@@ -194,7 +194,7 @@ function setModalContent(bidNum) {
 
             const li1 = document.createElement("li");
             li1.classList.add("list-group-item");
-            li1.innerHTML = `<span class="fw-bold">Status: </span> ${bid.status}<br> Submission deadline: ${new Date(bid.submission_deadline).toDateString()}`;
+            li1.innerHTML = `<span class="fw-bold">Status: </span> ${bid.status}<br> Submission deadline: ${bid.submission_deadline ? new Date(bid.submission_deadline).toDateString() : "none"}`;
 
             const li2 = document.createElement("li");
             li2.classList.add("list-group-item");
@@ -210,15 +210,15 @@ function setModalContent(bidNum) {
 
             const li5 = document.createElement("li");
             li5.classList.add("list-group-item");
-            li5.innerHTML = `<span class="fw-bold">Contract administrator: </span> ${bid.contract_administrator} <br> Phone: ${bid.contract_administrator_phone}`;
+            li5.innerHTML = `<span class="fw-bold">Contract administrator: </span> ${bid.contract_administrator || "<i>none</i>"} <br> Phone: ${bid.contract_administrator_phone || "<i>none</i>"}`;
 
             const li6 = document.createElement("li");
             li6.classList.add("list-group-item");
-            li6.innerHTML = `<span class="fw-bold">Trade agreements: </span> <br> <b data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Comprehensive Economic and Trade Agreement">CETA: </b>${bid.trade_agreement_ceta}&nbsp; / &nbsp;<b data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Canadian Free Trade Agreement">CFTA: </b>${bid.trade_agreement_cfta}&nbsp; / &nbsp;<b data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="New West Partnership Trade Agreement">NWPTA: </b>${bid.trade_agreement_nwpta}`;
+            li6.innerHTML = `<span class="fw-bold">Trade agreements: </span> <br> <b data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Comprehensive Economic and Trade Agreement">CETA: </b>${bid.trade_agreement_ceta || "<i>none</i>"}&nbsp; / &nbsp;<b data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Canadian Free Trade Agreement">CFTA: </b>${bid.trade_agreement_cfta || "<i>none</i>"}&nbsp; / &nbsp;<b data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="New West Partnership Trade Agreement">NWPTA: </b>${bid.trade_agreement_nwpta || "<i>none</i>"}`;
 
             const li7 = document.createElement("li");
             li7.classList.add("list-group-item");
-            li7.innerHTML = `<span class="fw-bold">Scope: </span> <br>  ${bid.scope}`;
+            li7.innerHTML = `<span class="fw-bold">Scope: </span> <br>  ${bid.scope || "<i>none</i>"}`;
 
             bidListGroup.append(li1, li2, li3, li4, li5, li6, li7);
         }
