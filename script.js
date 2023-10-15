@@ -166,7 +166,7 @@ function displayResults(data) {
         let bid = data[i];
         row.insertCell(0).innerHTML = i + 1;
         row.insertCell(1).innerHTML = `<b class="text-light-emphasis">${bid.bid_opportunity_number}</b>`;
-        row.insertCell(2).innerHTML = bid.status;
+        row.insertCell(2).innerHTML = `<span class="${bid.status.toLowerCase() == "open" && "badge bg-success"}">${bid.status}`;
         row.insertCell(3).innerHTML = `${bid.description}. <button class='btn btn-link btn-sm' data-bs-toggle="modal" data-bs-target="#bidModal" onclick="setModalContent('${bid.bid_opportunity_number}')" id="modalButton-${bid.bid_opportunity_number}">More info</button>`;
         row.insertCell(4).innerHTML = bid.year;
         row.insertCell(5).innerHTML = bid.contract_officer || "<i>none</i>";
@@ -194,7 +194,7 @@ function setModalContent(bidNum) {
 
             const li1 = document.createElement("li");
             li1.classList.add("list-group-item");
-            li1.innerHTML = `<span class="fw-bold">Status: </span> ${bid.status}<br> Submission deadline: ${bid.submission_deadline ? new Date(bid.submission_deadline).toDateString() : "none"}`;
+            li1.innerHTML = `<span class="fw-bold">Status: </span> <span class="${bid.status.toLowerCase() == "open" && "badge bg-success"}">${bid.status}</span><br> Submission deadline: ${bid.submission_deadline ? new Date(bid.submission_deadline).toDateString() : "none"}`;
 
             const li2 = document.createElement("li");
             li2.classList.add("list-group-item");
