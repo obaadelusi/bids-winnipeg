@@ -165,7 +165,7 @@ function displayResults(data) {
         let row = tbody.insertRow(tbody.rows.length);
         let bid = data[i];
         row.insertCell(0).innerHTML = i + 1;
-        row.insertCell(1).innerHTML = `<a href='${bid.documents_url.url}' target='_blank'>${bid.bid_opportunity_number}</a>`;
+        row.insertCell(1).innerHTML = `<b class="text-secondary">${bid.bid_opportunity_number}</b>`;
         row.insertCell(2).innerHTML = bid.status;
         row.insertCell(3).innerHTML = `${bid.description}. <button class='btn btn-link btn-sm' data-bs-toggle="modal" data-bs-target="#bidModal" onclick="setModalContent('${bid.bid_opportunity_number}')" id="modalButton-${bid.bid_opportunity_number}">More info</button>`;
         row.insertCell(4).innerHTML = bid.year;
@@ -192,35 +192,35 @@ function setModalContent(bidNum) {
 
             document.getElementById("bidModalDescription").innerHTML = bid.description;
 
-            const li = document.createElement("li");
-            li.classList.add("list-group-item");
-            li.innerHTML = `<span class="fw-bold">Status: </span> ${bid.status}<br> Submission deadline: ${new Date(bid.submission_deadline).toDateString()}`;
-
             const li1 = document.createElement("li");
             li1.classList.add("list-group-item");
-            li1.innerHTML = `<span class="fw-bold">Addendum count: </span> ${bid.addendum_count}<br> Last addendum comment: <i>${bid.latest_addendum_comment || "none"}</i><br> Last addendum issue date: <i>${bid.latest_addendum_issue_date ? new Date(bid.latest_addendum_issue_date).toDateString() : "none"}</i>`;
+            li1.innerHTML = `<span class="fw-bold">Status: </span> ${bid.status}<br> Submission deadline: ${new Date(bid.submission_deadline).toDateString()}`;
 
             const li2 = document.createElement("li");
             li2.classList.add("list-group-item");
-            li2.innerHTML = `<span class="fw-bold">Contract officer: </span> ${bid.contract_officer || "<i>none</i>"} <br> Phone: ${bid.contract_officer_phone || "<i>none</i>"} <br> Email: ${bid.contract_officer_email || "<i>none</i>"}`;
+            li2.innerHTML = `<span class="fw-bold">Documents: </span> <br> <a href="${bid.documents_url ? bid.documents_url.url : "#"}" target="_blank">Documents link</a>&nbsp; • &nbsp;<a href="${bid.merx_url ? bid.merx_url.url : ""}" target="_blank">${bid.merx_url ? "Merx Docs" : ""}</a>`;
 
             const li3 = document.createElement("li");
             li3.classList.add("list-group-item");
-            li3.innerHTML = `<span class="fw-bold">Contract administrator: </span> ${bid.contract_administrator} <br> Phone: ${bid.contract_administrator_phone}`;
+            li3.innerHTML = `<span class="fw-bold">Addendum count: </span> ${bid.addendum_count}<br> Last addendum comment: <i>${bid.latest_addendum_comment || "none"}</i><br> Last addendum issue date: <i>${bid.latest_addendum_issue_date ? new Date(bid.latest_addendum_issue_date).toDateString() : "none"}</i>`;
 
             const li4 = document.createElement("li");
             li4.classList.add("list-group-item");
-            li4.innerHTML = `<span class="fw-bold">Documents: </span> <br> <a href="${bid.documents_url.url || "<i>none</i>"}" target="_blank">URL</a>&nbsp; • &nbsp;<a href="${bid.merx_url.url || "<i>none</i>"}" target="_blank">Merx Url</a>`;
+            li4.innerHTML = `<span class="fw-bold">Contract officer: </span> ${bid.contract_officer || "<i>none</i>"} <br> Phone: ${bid.contract_officer_phone || "<i>none</i>"} <br> Email: ${bid.contract_officer_email || "<i>none</i>"}`;
 
             const li5 = document.createElement("li");
             li5.classList.add("list-group-item");
-            li5.innerHTML = `<span class="fw-bold">Trade agreements: </span> <br> <b data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Comprehensive Economic and Trade Agreement">CETA: </b>${bid.trade_agreement_ceta}&nbsp; / &nbsp;<b data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Canadian Free Trade Agreement">CFTA: </b>${bid.trade_agreement_cfta}&nbsp; / &nbsp;<b data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="New West Partnership Trade Agreement">NWPTA: </b>${bid.trade_agreement_nwpta}`;
+            li5.innerHTML = `<span class="fw-bold">Contract administrator: </span> ${bid.contract_administrator} <br> Phone: ${bid.contract_administrator_phone}`;
 
             const li6 = document.createElement("li");
             li6.classList.add("list-group-item");
-            li6.innerHTML = `<span class="fw-bold">Scope: </span> <br>  ${bid.scope}`;
+            li6.innerHTML = `<span class="fw-bold">Trade agreements: </span> <br> <b data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Comprehensive Economic and Trade Agreement">CETA: </b>${bid.trade_agreement_ceta}&nbsp; / &nbsp;<b data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Canadian Free Trade Agreement">CFTA: </b>${bid.trade_agreement_cfta}&nbsp; / &nbsp;<b data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="New West Partnership Trade Agreement">NWPTA: </b>${bid.trade_agreement_nwpta}`;
 
-            bidListGroup.append(li, li1, li2, li3, li4, li5, li6);
+            const li7 = document.createElement("li");
+            li7.classList.add("list-group-item");
+            li7.innerHTML = `<span class="fw-bold">Scope: </span> <br>  ${bid.scope}`;
+
+            bidListGroup.append(li1, li2, li3, li4, li5, li6, li7);
         }
 
         // Enable tooltips
@@ -242,7 +242,7 @@ function load() {
         const apiUrl = encodeURI(getURL());
 
         fetchData(apiUrl).then((data) => {
-            // console.log(data);
+            console.log(data);
             spinner.classList.remove("invisible");
             setTimeout(() => {
                 spinner.classList.add("invisible");
